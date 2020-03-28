@@ -69,7 +69,15 @@ SERVICES_REQUIRES=('web_mysqld' 'web_ftpsrv' )
 
 LIB_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$LIB_DIR" ]]; then LIB_DIR="$PWD"; fi
-. "$LIB_DIR/podman_support.sh"
+
+if [ -d "$LIB_DIR/podman-support" ]; then LIB_DIR="${LIB_DIR}/podman-support"; fi
+
+if [ -f "$LIB_DIR/podman_support.sh" ]; then
+   . "$LIB_DIR/podman_support.sh"
+else
+   echo "Unable to locate podman_support.h library"
+   exit 1
+fi
 
 
 container_svc_main $SERVICE_NAME $1
